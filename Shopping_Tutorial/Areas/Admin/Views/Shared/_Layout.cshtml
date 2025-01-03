@@ -8,6 +8,10 @@
 	<meta name="author" content="">
 	<title>@ViewData["title"]- Admin</title>
 	<link href="~/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.3/dist/sweetalert2.min.css" rel="stylesheet">
+	<link href="//cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css" rel="stylesheet">
+
 	<link href="~/css/font-awesome.min.css" rel="stylesheet">
 	<link href="~/css/prettyPhoto.css" rel="stylesheet">
 	<link href="~/css/price-range.css" rel="stylesheet">
@@ -67,13 +71,14 @@
 						</div>
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-
+								<li><a asp-area="" asp-controller="Home" asp-action="Index" class="active"><i class="fa fa-home"></i>Home</a></li>
 								<li><a asp-controller="Product" asp-action="Index">Sản phẩm</a></li>
 								<li><a asp-controller="Category" asp-action="Index">Danh mục</a></li>
 								<li><a asp-controller="Brand" asp-action="Index">Thương hiệu</a></li>
 								<li><a asp-controller="Order" asp-action="Index">Đơn hàng</a></li>
-								<li><a asp-controller="AppRoles" asp-action="Index">Quyền</a></li>
+								<li><a asp-controller="Role" asp-action="Index">Quyền</a></li>
 								<li><a asp-controller="User" asp-action="Index">Người dùng</a></li>
+								<li><a asp-controller="Contact" asp-action="Index">Liên hệ</a></li>
 							</ul>
 						</div>
 					</div>
@@ -106,6 +111,15 @@
 	<script src="~/js/jquery.prettyPhoto.js"></script>
 	<script src="~/js/main.js"></script>
 	<script src="~/backend/js/site.js"></script>
+	<script src="//cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.3/dist/sweetalert2.all.min.js"></script>
+	<script>
+		$(function () {
+			var message = '@TempData["success"]';
+			if (message != '')
+				Swal.fire(message);
+		});
+	</script>
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

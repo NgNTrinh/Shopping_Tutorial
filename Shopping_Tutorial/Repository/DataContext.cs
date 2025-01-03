@@ -13,7 +13,10 @@ namespace Shopping_Tutorial.Repository
 		public DbSet<BrandModel> Brands { get; set; }
 		public DbSet<ProductModel> Products { get; set; }
 		public DbSet<CategoryModel> Categories { get; set; }
-//		public DbSet<OrderModel> OrderModels { get; set; }
-//		public DbSet<OrderDetails> OrderDetails { get; set; }
-	}
+		public DbSet<OrderModel> OrderModels { get; set; }
+		public DbSet<OrderDetails> OrderDetails { get; set; }
+		public DbSet<ContactModel> Contacts { get; set; }
+
+        public DbSet<ProductQuantityModel> ProductQuantities { get; set; }
+    }
 }

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ContactModel>
+@{
+    ViewData["title"] = "Lien hệ";
+}
+<h3>Danh sách trang liên hệ</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Tên sản phẩm</th>
+            <th scope="col">Mô tả</th>
+            <th scope="col">Logo</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Emali</th>
+
+            <th scope="col">Quản lý</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.Name</td>
+                <td>@Html.Raw(@item.Description)</td>
+                <td><img src="~/media/products/@item.LogoImg" width="120px"></img></td>
+                <td>@item.Phone</td>
+                <td>@item.Email</td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-warning btn-sm" asp-controller="Contect">Sửa</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

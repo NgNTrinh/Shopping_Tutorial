@@ -7,7 +7,8 @@ using Shopping_Tutorial.Repository;
 namespace Shopping_Tutorial.Areas.Admin.Controllers
 {
     [Area("Admin")]
- //   [Authorize(Roles = "Admin")]
+    [Route("Admin/Category")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
 	{
         private readonly DataContext _dataContext;
@@ -16,24 +17,31 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
             _dataContext = context;
 
         }
-        public async Task<IActionResult> Index()
-        {
-            return View(await _dataContext.Categories.OrderByDescending(p => p.Id).ToListAsync());
-        }
+        [HttpGet]
+               [Route("Index")]
+               public async Task<IActionResult> Index()
+               {
+                   return View(await _dataContext.Categories.OrderByDescending(p => p.Id).ToListAsync());
+               }
 
+
+
+        [HttpGet]
+        [Route("Create")]
         public IActionResult Create()
         {
 
             return View();
         }
-
+        [HttpGet]
+        [Route("Edit")]
         public async Task<IActionResult> Edit(int Id)
         {
             CategoryModel category = await _dataContext.Categories.FindAsync(Id);
             return View(category);
         }
-
         [HttpPost]
+        [Route("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CategoryModel category)
         {
@@ -70,8 +78,8 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
             }
             return View(category);
         }
-
         [HttpPost]
+        [Route("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(CategoryModel category)
         {
@@ -108,7 +116,8 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
             }
             return View(category);
         }
-
+        [HttpGet]
+        [Route("Delete")]
         public async Task<IActionResult> Delete(int Id)
         {
             CategoryModel category = await _dataContext.Categories.FindAsync(Id);

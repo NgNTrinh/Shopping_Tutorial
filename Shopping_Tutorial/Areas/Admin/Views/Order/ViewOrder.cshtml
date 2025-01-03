@@ -1,0 +1,76 @@
+﻿@model IEnumerable<OrderDetails>
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+    decimal total = 0;
+    decimal subtotal = 0;
+}
+<h3>Danh sách chi tiết đơn hàng</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Mã đơn hàng</th>
+            <th scope="col">Tên người đặt</th>
+            <th scope="col">Tên sản phẩm</th>
+            <th scope="col">Giá sản phẩm</th>
+            <th scope="col">Số Lượng</th>
+            <th scope="col">Giá</th>
+
+        </tr>
+    </thead>
+   <tbody>
+    @foreach (var item in Model)
+    {
+        subtotal = item.soLuong * item.Gia;
+        total += subtotal;
+        <tr>
+            <input type="hidden" class="getId" data-order-code="@item.OrderCode" />
+            <td>@item.Id</td>
+            <td>@item.OrderCode</td>
+            <td>@item.UserName</td>
+            <td>@item.product.Name</td>
+            <td>$@item.Gia</td>
+            <td>@item.soLuong</td>
+            <td>@subtotal.ToString("C")</td>
+            <td>
+                <select class="form-control select-update-order">
+                    <option value="1" >Đơn hàng mới</option>
+                    <option value="0">Đã xử lý</option>
+                </select>
+            </td>
+        </tr>
+    }
+        <tr>
+        <th colspan="5">Total: </th>
+        <td>@total.ToString("C")</td>
+        </tr>
+</tbody>
+
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.select-update-order').change(function () {
+                var status = $(this).val(); // Lấy trạng thái từ dropdown
+                var orderCode = $(this).closest('tr').find('.getId').data('order-code'); // Lấy orderCode từ dòng hiện tại
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/Order/UpdateOrder", // Đường dẫn tới action
+                    data: { status: status, orderCode: orderCode },
+                    success: function (result) {
+                        if (result.success) {
+                            Swal.fire("Cập nhật đơn hàng thành công");
+                        } else {
+                            Swal.fire("Cập nhật thất bại: " + result.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire("Lỗi: " + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+
+}

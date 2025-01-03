@@ -24,7 +24,14 @@
 								<p style="color: black">Danh Mục: @item.Category.Name</p>
 								<p style="color: black">Thương hiệu: @item.Brand.Name</p>
 							</a>
-							<a style="color: red;border-radius:10px" class="btn btn-default add-to-cart" asp-action="Add" asp-controller="Cart" asp-route-Id="@item.Id"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+							@if (item.Quantity > 0)
+							{
+								<a style="color: red;border-radius:10px" class="btn btn-default add-to-cart" asp-action="Add" asp-controller="Cart" asp-route-Id="@item.Id"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+							}
+							else
+							{
+								<a style="color: black;border-radius:10px;margin-left:40px" class="btn btn-default"><i class="fa fa-shopping"></i>Hết hàng</a>
+							}
 						</div>
 					</div>
 				</div>

@@ -7,7 +7,8 @@ using Shopping_Tutorial.Repository;
 namespace Shopping_Tutorial.Areas.Admin.Controllers
 {
     [Area("Admin")]
- //   [Authorize(Roles = "Admin")]
+    [Route("Admin/Brand")]
+    [Authorize(Roles = "Admin")]
     public class BrandController : Controller
 	{
         private readonly DataContext _dataContext;
@@ -16,20 +17,27 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
             _dataContext = context;
 
         }
+        [HttpGet]
+        [Route("Index")]
         public async Task<IActionResult> Index()
         {
             return View(await _dataContext.Brands.OrderByDescending(p => p.Id).ToListAsync());
         }
+        [HttpGet]
+        [Route("Create")]
         public async Task<IActionResult> Create()
         {
             return View();
         }
+        [HttpGet]
+        [Route("Edit")]
         public async Task<IActionResult> Edit(int Id)
         {
             BrandModel brand = await _dataContext.Brands.FindAsync(Id);
             return View(brand);
         }
         [HttpPost]
+        [Route("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BrandModel brand)
         {
@@ -68,6 +76,7 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
         }
         //edit
         [HttpPost]
+        [Route("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(BrandModel brand)
         {
@@ -106,6 +115,8 @@ namespace Shopping_Tutorial.Areas.Admin.Controllers
         }
 
         //Xóa
+        [HttpGet]
+        [Route("Delete")]
         public async Task<IActionResult> Delete(int Id)
         {
             BrandModel brand = await _dataContext.Brands.FindAsync(Id);

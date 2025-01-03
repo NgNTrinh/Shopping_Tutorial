@@ -2,6 +2,7 @@
 using Shopping_Tutorial.Models.ViewModels;
 using Shopping_Tutorial.Models;
 using Shopping_Tutorial.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shopping_Tutorial.Controllers
 {
@@ -77,15 +78,18 @@ namespace Shopping_Tutorial.Controllers
 
 		public async Task<IActionResult> Increase(int Id)
 		{
+			ProductModel product = await _dataContext.Products.Where(p => p.Id == Id).FirstOrDefaultAsync();
 			List<CartItemModel> cart = HttpContext.Session.GetJson<List<CartItemModel>>("Cart");
 			CartItemModel cartItems = cart.Where(c => c.ProductId == Id).FirstOrDefault();
-			if (cartItems.Quantity >= 1)
+			if (cartItems.Quantity >= 1 && product.Quantity > cartItems.Quantity)
 			{
 				++cartItems.Quantity;
+				TempData["success"] = "Tăng số lượng thành công!";
 			}
 			else
 			{
-				cart.RemoveAll(p => p.ProductId == Id);
+				cartItems.Quantity = product.Quantity;
+				TempData["success"] = "Số lượng đã Maximun!";
 			}
 
 			if (cart.Count == 0)
